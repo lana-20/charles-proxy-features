@@ -16,3 +16,21 @@ Besides tracking, Charles Proxy is instrumental when I encounter issues in many 
 6. Was the response correct?
 7. Did the client fail to handle the response?
 
+With Postman, I can only answer questions 5 and 6. Did I receive the response, and was it correct? 
+
+Postman is a great tool, helpful in situations such as:
+- I have the back-end ready, but the UI is not done yet. I can test features early, check if the API works well, before it gets connected to the UI.
+- Create a Collection to help me generate data. Let's say, to run Regression Testing, I need an account that has multiple reservations and multiple places. Creating this data manually is tedious. I can create Postman Collections that generates the data for testing. A Collection can create a few places and make a few reservations for me.
+
+But I dont' exclusively work with the back-end, when testing a mobile a web-based app. I do use Postman, but not as often as one might think. Once in a while, I might run some Collections or run the requests one by one.
+
+Postman is not the ‘man in the middle’. It has no idea what’s going on on the front-end. It's just a tool that lets me, as a tester, play the role of the app and request data from the server on behalf of the app. 
+But if I want to know more and get answers to the 7 Questions, I’m looking into using a secure proxy server to intercept (listen in on) the traffic.
+
+[What is Proxy? How does it work?](https://www.youtube.com/watch?v=5cPIukqXe5w&t=77s&ab_channel=PowerCertAnimatedVideos)
+
+[What is (HTTP) Proxy?](https://www.youtube.com/watch?v=hExRDVZHhig&t=19s&ab_channel=PowerCertAnimatedVideos)
+
+Karl von Randow, a New Zealander, an experienced dev who started more than 20 years ago when Chrome or Safari did not exist yet. There were no good debugging tools. Nowadays, I can check for any issues with my Requests in the browser DevTools (for a web-based app). I can inspect the page, analyze multiple tabs such as Elements, Console, Sources, Network, Performance, Memory. I can go to my Network Tab and figure out which end-point I was trying to hit, my status code, how much time it took, etc. I can check it on the DevTools, but Karl couldn’t. At that time, there was no such thing as Chrome DevTools, there was no Chrome. He created the ‘man in the middle’ who’d help him to debug his web-based app. To figure out why he did not see things that he would expect to see, and what is failing, eg. Not having a debugging tool may cause a lot of frustration. So, he created Charles Proxy.
+
+
