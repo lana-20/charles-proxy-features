@@ -5,3 +5,14 @@ Almost every software product, whether it’s web or mobile, has some kind of tr
 If a mobile app is using tracking, the mobile team should ask themselves if it's really necessary to track and if it's helpful for the business? There are laws in many countries that protect user data and how it’s used. The EU General Data Protection Regulation (GDPR) is the law focusing to consolidate the data privacy laws across the EU. Companies have to inform their users about the implemented tracking and why and how the data is used. If a company does not follow the law, it can be sued and fines can be assessed for violation of the law. Whenever tracking is implemented, mobile teams should know the regulations for user tracking and data, so they do not open their company to liability inadvertently.
 
 If tracking is in place, make sure it works before every release. Use tools like Charles Proxy or Fiddler to verify.
+
+Besides tracking, Charles Proxy is instrumental when I encounter issues in many different places. What are those places?
+
+1. Did I send a request?
+2. Was the request correct?
+3. Did the server fail?
+4. Did the network fail?
+5. Did I receive a response?
+6. Was the response correct?
+7. Did the client fail to handle the response?
+
