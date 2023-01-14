@@ -33,5 +33,11 @@ Karl von Randow, a New Zealander, an experienced dev who started more than 20 ye
 
 [What is (HTTP) Proxy?](https://github.com/lana-20/ssl-tls-http-https/blob/main/README.md)
 
+Privacy, speed, bandwidth savings, activity logging are the benefits of using a Proxy Server. Charles Proxy takes advantage of one of the abilities of proxy servers. This ability is activity logging. Charles sticks in the middle, records communication activities between client and server, and I can see it in real time. It helps me identify the issue.
+
+Charles configuration may be a bit complex, but its benefits are more than worth it. There's a 30-day free trial, after which a $50 life-time license is available for purchase. Without a license after a free trial, Charles still works but it shuts down every 30 minutes, which is usually enough to test. I can just restart it and keep testing.
+
+
+
 
 
