@@ -27,10 +27,11 @@ But I dont' exclusively work with the back-end, when testing a mobile a web-base
 Postman is not the ‘man in the middle’. It has no idea what’s going on on the front-end. It's just a tool that lets me, as a tester, play the role of the app and request data from the server on behalf of the app. 
 But if I want to know more and get answers to the 7 Questions, I’m looking into using a secure proxy server to intercept (listen in on) the traffic.
 
-[What is Proxy? How does it work?](https://www.youtube.com/watch?v=5cPIukqXe5w&t=77s&ab_channel=PowerCertAnimatedVideos)
-
-[What is (HTTP) Proxy?](https://www.youtube.com/watch?v=hExRDVZHhig&t=19s&ab_channel=PowerCertAnimatedVideos)
-
 Karl von Randow, a New Zealander, an experienced dev who started more than 20 years ago when Chrome or Safari did not exist yet. There were no good debugging tools. Nowadays, I can check for any issues with my Requests in the browser DevTools (for a web-based app). I can inspect the page, analyze multiple tabs such as Elements, Console, Sources, Network, Performance, Memory. I can go to my Network Tab and figure out which end-point I was trying to hit, my status code, how much time it took, etc. I can check it on the DevTools, but Karl couldn’t. At that time, there was no such thing as Chrome DevTools, there was no Chrome. He created the ‘man in the middle’ who’d help him to debug his web-based app. To figure out why he did not see things that he would expect to see, and what is failing, eg. Not having a debugging tool may cause a lot of frustration. So, he created Charles Proxy.
+
+[What is Proxy? How does it work?](https://github.com/lana-20/proxy-server#readme)
+
+[What is (HTTP) Proxy?](https://github.com/lana-20/ssl-tls-http-https/blob/main/README.md)
+
 
 
