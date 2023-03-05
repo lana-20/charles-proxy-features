@@ -44,6 +44,19 @@ Charles configuration may be a bit complex, but its benefits are more than worth
 
 ___
 
+Configuring Charles Proxy:
+
+- [Mac]()
+- [Windows]()
+- [Mac and iOS device](https://youtu.be/vtSLoCC299U)
+- [iOS device]()
+- [Android device]()
+- [Android emulator]()
+
+Sometimes when installing the certificate on an emulator, the page chls.pro/ssl is not loading. This tutorial (TBD), shows an alternative way of installing the certificate on the emulator. 
+Also you may try to reach out to charlesproxy.com/getssl if the short url chls.pro/ssl doesn’t work.
+
+
 Charles Proxy Tutorials:
 
 - [Charles Proxy Tutorial for iOS](https://www.raywenderlich.com/1827524-charles-proxy-tutorial-for-ios)
