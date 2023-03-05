@@ -8,13 +8,13 @@ If tracking is in place, make sure it works before every release. Use tools like
 
 Besides tracking, Charles Proxy is instrumental when I encounter issues in many different places. What are those places?
 
-1. Did I send a request?
-2. Was the request correct?
-3. Did the server fail?
-4. Did the network fail?
+1. **Did I send a request?**
+2. **Was the request correct?**
+3. **Did the server fail?**
+4. **Did the network fail?**
 5. Did I receive a response?
 6. Was the response correct?
-7. Did the client fail to handle the response?
+7. **Did the client fail to handle the response?**
 
 With Postman, I can only answer questions 5 and 6. Did I receive the response, and was it correct? 
 
