@@ -22,7 +22,7 @@ Postman is a great tool, helpful in situations such as:
 - I have the back-end ready, but the UI is not done yet. I can test features early, check if the API works well, before it gets connected to the UI.
 - Create a Collection to help me generate data. Let's say, to run Regression Testing, I need an account that has multiple reservations and multiple places. Creating this data manually is tedious. I can create Postman Collections that generates the data for testing. A Collection can create a few places and make a few reservations for me.
 
-But I dont' exclusively work with the back-end, when testing a mobile a web-based app. I do use Postman, but not as often as one might think. Once in a while, I might run some Collections or run the requests one by one.
+But I don't exclusively work with the back-end, when testing a mobile a web-based app. I do use Postman, but not as often as one might think. Once in a while, I might run some Collections or run the requests one by one.
 
 Postman is not the ‘man in the middle’. It has no idea what’s going on on the front-end. It's just a tool that lets me, as a tester, play the role of the app and request data from the server on behalf of the app. 
 But if I want to know more and get answers to the 7 Questions, I’m looking into using a secure proxy server to intercept (listen in on) the traffic.
@@ -53,8 +53,8 @@ Configuring Charles Proxy:
 - [Android device]()
 - [Android emulator]()
 
-Sometimes when installing the certificate on an emulator, the page chls.pro/ssl is not loading. This tutorial (TBD), shows an alternative way of installing the certificate on the emulator. 
-Also you may try to reach out to charlesproxy.com/getssl if the short url chls.pro/ssl doesn’t work.
+Sometimes when installing the certificate on an emulator, the page [chls.pro/ssl](chls.pro/ssl) is not loading. This tutorial (TBD), shows an alternative way of installing the certificate on the emulator. 
+Also you may try to reach out to [charlesproxy.com/getssl](charlesproxy.com/getssl) if the short url [chls.pro/ssl](chls.pro/ssl) doesn’t work.
 
 
 Charles Proxy Tutorials:
