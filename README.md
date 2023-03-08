@@ -51,7 +51,7 @@ ___
 - [Mac and iOS device](https://youtu.be/vtSLoCC299U)
 - [iOS device]()
 - [Android device]()
-- [Android emulator]()
+- [Android emulator](https://youtu.be/WJYf9nkSIKA)
   - Sometimes when installing the certificate on an emulator, the page [chls.pro/ssl](chls.pro/ssl) is not loading. This tutorial (TBD), shows an alternative way of installing the certificate on the emulator. 
 Also you may try to head over to [charlesproxy.com/getssl](charlesproxy.com/getssl) if the short url [chls.pro/ssl](chls.pro/ssl) doesn’t work.
 
