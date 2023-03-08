@@ -44,7 +44,7 @@ Charles configuration may be a bit complex, but its benefits are more than worth
 
 ___
 
-Configuring Charles Proxy:
+[Configuring Charles Proxy](https://github.com/lana-20/charles-setup):
 
 - [Mac]()
 - [Windows]()
@@ -52,9 +52,8 @@ Configuring Charles Proxy:
 - [iOS device]()
 - [Android device]()
 - [Android emulator]()
-
-Sometimes when installing the certificate on an emulator, the page [chls.pro/ssl](chls.pro/ssl) is not loading. This tutorial (TBD), shows an alternative way of installing the certificate on the emulator. 
-Also you may try to reach out to [charlesproxy.com/getssl](charlesproxy.com/getssl) if the short url [chls.pro/ssl](chls.pro/ssl) doesn’t work.
+  - Sometimes when installing the certificate on an emulator, the page [chls.pro/ssl](chls.pro/ssl) is not loading. This tutorial (TBD), shows an alternative way of installing the certificate on the emulator. 
+Also you may try to head over to [charlesproxy.com/getssl](charlesproxy.com/getssl) if the short url [chls.pro/ssl](chls.pro/ssl) doesn’t work.
 
 
 Charles Proxy Tutorials:
@@ -74,6 +73,10 @@ Status Codes and Protocols:
 
 - [HTTP Status Codes](https://www.restapitutorial.com/httpstatuscodes.html)
 - [WSS (WebSocket Secure) Protocol (used by messengers apps like Slack)](https://devcenter.heroku.com/articles/websocket-security)
+
+Notes:
+
+- [Notes on Charles Proxy](https://github.com/lana-20/charles-notes)
 
 
 
