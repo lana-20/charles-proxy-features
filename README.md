@@ -41,6 +41,18 @@ But if we want to know more and get answers to all of the 7 questions, we're loo
 
 Privacy, speed, bandwidth savings, activity logging are the benefits of using a Proxy Server. Charles Proxy takes advantage of one of the abilities of proxy servers. This ability is activity logging. Charles sticks in the middle, records communication activities between client and server -- and we can view it in real time, it helps us identify and isolate the issue.
 
+When can such activity logging be useful? Let's say, you open an app and see less content that you expect. How would you approach that?
+
+For example, I am working on an app that reserves public transportation for visually impaired users. In this app, I can save various places to *My Places*. For testing purposed. I have 5 places saved already. But when I navigate to *My Places* screen, I only see 3. There's an obvious issue here. How to approach it? I could check the database and get a result set of 5. That would mean a UI issue, and I'd file a bug report with my mobile developers not the back-end ones.
+
+However, things can go wrong in many places, there is a long way between the UI and the database. I could query the database and get 5 places in return. But that would not immediately indicate a UI bug. In order to be sure, I need to closely trace how my app's UI side communicates with the backend. Apparently, when I login I do not query the database directly. There are all sorts of API methods - GET, PUT, POST, PATCH, DELETE. When I look for *My Places*, the app makes an API request to GET places for the user. I know which users are logged in when I'm in my app. For a particular logged in user, the app asks the back-end to provide their places. Then the back-end goes and retrieves those places from the database. Behind the scenes, it means that once the app executes this request, asking for places for a specific user, the back-end selects places from the Places table:
+
+SELECT place from Places
+WHERE user_id = ' ... '
+
+There is a chance that a developer made a mistake when composing a query. They may forget something or not GROUP by something. We might have to query multiple tables. The developers are human, they can make mistakes.
+
+
 
 
 
