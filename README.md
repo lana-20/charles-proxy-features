@@ -14,7 +14,7 @@ Besides tracking, the **Logging** feature of a proxy server is instrumental in d
 
 The request or response can encounter issues in many different places, while travelling over HTTP from the client to the server and back. What are those places?
 
-Karl von Randow, a New Zealander, an experienced developer who started more than 20 years ago when Chrome or Safari did not exist yet. There were no good debugging tools. Nowadays, we can check for any issues with our Requests in the browser DevTools (for a web-based app). We can inspect the page, analyze multiple tabs such as Elements, Console, Sources, Network, Performance, Memory. We can go to our Network Tab and figure out which end-point we was trying to hit, our status code, how much time it took, etc. We can check it in the DevTools, but Karl couldn’t. At that time, there was no such thing as Chrome DevTools, there was no Chrome. He created the ‘man in the middle’ who’d help him to debug his web-based app. For example, to figure out why he did not see things that he would expect to see, and what was failing. Not having a debugging tool may cause a lot of frustration. So, he created Charles Proxy.
+Karl von Randow is an experienced developer who started over 20 years ago when Chrome or Safari did not exist yet. There were no good debugging tools. Nowadays, we can check for any issues with our Requests in the browser DevTools (for a web-based app). We can inspect the page, analyze multiple tabs such as Elements, Console, Sources, Network, Performance, Memory. We can go to our Network Tab and figure out which end-point we was trying to hit, our status code, how much time it took, etc. We can check it in the DevTools, but Karl couldn’t. At that time, there was no such thing as Chrome DevTools, there was no Chrome. He created the ‘man in the middle’ who’d help him to debug his web-based app. For example, to figure out why he did not see things that he would expect to see, and what was failing. Not having a debugging tool may cause a lot of frustration. So, he created Charles Proxy.
 
 Karl posed the following 7 questions:
 
@@ -47,10 +47,16 @@ For example, I am working on an app that reserves public transportation for visu
 
 However, things can go wrong in many places, there is a long way between the UI and the database. I could query the database and get 5 places in return. But that would not immediately indicate a UI bug. In order to be sure, I need to closely trace how my app's UI side communicates with the backend. Apparently, when I login I do not query the database directly. There are all sorts of API methods - GET, PUT, POST, PATCH, DELETE. When I look for *My Places*, the app makes an API request to GET places for the user. I know which users are logged in when I'm in my app. For a particular logged in user, the app asks the back-end to provide their places. Then the back-end goes and retrieves those places from the database. Behind the scenes, it means that once the app executes this request, asking for places for a specific user, the back-end selects places from the Places table:
 
-SELECT place from Places
-WHERE user_id = ' ... '
+    SELECT place from Places
+    WHERE user_id = ' ... '
 
 There is a chance that a developer made a mistake when composing a query. They may forget something or not GROUP by something. We might have to query multiple tables. The developers are human, they can make mistakes.
+
+When the 'GET places for the user' request does not return all of *My Places*, I instantly go into the database directly. If I write a correct query, but my the devs didn't, I retrieve the correct result set of 5 places. But there is no error thrown to indicate an issue. I should have started debugging by first figurng out what the app was actually requesting.
+
+Did the app actually request the places? What if it requested something else? What if there are problems with the API call? What if the app actually executes POST or DELETE in lieu of GET? What if there's a problem with the what tha app is asking for? What if the developers wrote a query with some issues, which returns an inaccurate result set?
+
+A lot of things can happen. It can be hard to figure out if the issue belongs to the front- or back-end. We may encounter issues in many places, highlighted in the **7 questions** above.
 
 
 
