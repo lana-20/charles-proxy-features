@@ -143,6 +143,16 @@ We are viewing this response for informational purposes. The response in itself 
 
 #TODO - finish Charles practice notes and illustrations
 
+
+Overall, the typical debugging activities I conduct with Charles Proxy are:
+
+1. Logging
+2. Re-Write
+3. Map Local
+4. Throttling
+5. Breakpoints
+
+Logging comprises only 20% of the time I spend on Charles. The other 80% of tasks and features, such as Re-Write, Map Local, Throttling, and Breakpoints are covered in this [post](url) (TBD).
 ___
 
 [What is Proxy? How does it work?](https://github.com/lana-20/proxy-server#readme)
