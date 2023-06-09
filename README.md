@@ -72,9 +72,12 @@ A lot of things can happen. It can be hard to figure out if the issue belongs to
 7. **Did the client fail to handle the response?**
     - If I receive 5 places back, and eveything is fine, maybe I fail to display all the results. Maybe a developer limited the number of entries in a particulat table to be 3, instead of as many as defined by the requirements? That may be a reason for not showing all the places.
 
-It's time to roll up the sleeves and practice with Chatles Proxy.
+It's time to roll up the sleeves and practice with Charles Proxy. The main purpose of Charles is the answer the above captioned 7 questions. We can trace our app activity. In order to to be able to read data, we should go through the installation and configuration steps first. For the Charles to be trusted by the outside world, we need to install the Charles SSL certificate on the computer. Another certificate must be installd of the mobile device. In total, we need 2 SSL certificate - the mobile device and the computer - because they need to communicate and trust each other.
 
-#TODO - Charles practice notes and illustrations
+When we open Charles on the desktop, we see some random sequences running, with such as Code, Method, Host, Path, Start, Duration, Size, and Status. At the moment, Charles is trying to log something that is happening on my computer. And, while we can use Charles for web-based app debugging if needed, I want to focus on the mobile devices. In order to get rid of the undesired traffic from my computer, I go to the Proxy menu and uncheck **macOS Proxy**. Afterwards, there should be no interference coming from the computer.
+
+
+#TODO - finish Charles practice notes and illustrations
 
 ___
 
