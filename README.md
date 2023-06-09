@@ -8,9 +8,9 @@ If a mobile app is using tracking, the mobile team should ask themselves if it's
 
 If tracking is in place, make sure it works before every release. Use tools like Charles Proxy or Fiddler to verify. Charles Proxy is what I've been using as a tester. When conducting Mobile App Testing, I have Charles running on my machine 3/4 of the time.
 
-For *Android* versions of the app *only*, the developers provide testers with a special debuggable build that we can use with Charles Proxy. They add a Network Security Configuration file into the Android project in order for us to be able to read the traffic in Charles. The production versions do not have this file. We only have it in the test versions, the debug builds, and only if the developers have added the configuration file. 99% of the time the test version of the app is already configured for use with the Android version. iOS does not require that, only Android does. Without the special debug build, we aren't able to view the traffic.
+For *Android* versions of the app *only*, the developers provide testers with a special debuggable build that we can use with Charles Proxy. They [add a Network Security Configuration file into the Android project](https://medium.com/@ferrygunawan/debug-ssl-traffic-with-charles-proxy-872aedb228d#be19) in order for us to be able to read the traffic in Charles. The production versions do not have this file. We only have it in the test versions, the debug builds, and only if the developers have added the configuration file. 99% of the time the test version of the app is already configured for use with the Android version. iOS does not require that, only Android does. Without the special debug build, we aren't able to view the traffic.
 
-Besides tracking, the **Logging** feature of a proxy server is instrumental in debugging issues during the root cause analysis. It helps us pinpoint a failure to either the front- or the back-end. Mobile Testing often involves utilization of proxies to read the traffic between the app's front-end & back-end (and any nook & cranny, ebbs and flows that a request or response may traverse through). For extensive logging and root cause analysis, I use Charles Proxy. 
+Besides tracking, the **Activity Logging / Tracking** feature of a proxy server is instrumental in debugging issues during the root cause analysis. It helps us pinpoint a failure to either the front- or the back-end. Mobile Testing often involves utilization of proxies to read the traffic between the app's front-end & back-end (and any nook & cranny, ebbs and flows that a request or response may traverse through). For extensive logging and root cause analysis, I use Charles Proxy. 
 
 The request or response can encounter issues in many different places, while travelling over HTTP from the client to the server and back. What are those places?
 
@@ -36,12 +36,11 @@ Postman is a great tool, helpful in situations such as:
 
 But we don't exclusively work with the back-end, when testing a mobile or a web-based app. I do use Postman, but not as often as one might think. Once in a while, I might run some Collections or run the requests one by one.
 
-Postman is not the ‘man in the middle’. It has no idea what’s going on on the front-end. It's just a tool that lets us, as testers, play the role of the app and request data from the server on behalf of the app. 
-But if we want to know more and get answers to all of the 7 questions, we're looking into using a secure proxy server to intercept (listen in on) the traffic.
+Postman is not the ‘man in the middle’. It has no idea what’s going on on the front-end. It's just a tool that lets us, as testers, play the role of the app and request data from the server on behalf of the app. But if we want to know more and get answers to all of the 7 questions, we're looking into using a secure proxy server to intercept (listen in on) the traffic.
 
 Privacy, speed, bandwidth savings, activity logging are the benefits of using a Proxy Server. Charles Proxy takes advantage of one of the abilities of proxy servers. This ability is activity logging. Charles sticks in the middle, records communication activities between client and server -- and we can view it in real time, it helps us identify and isolate the issue.
 
-When can such activity logging be useful? Let's say, you open an app and see less content that you expect. How would you approach that?
+When can such activity **logging** be useful? Let's say, you **open an app and see less content that you expect**. How would you approach that?
 
 For example, I am working on an app that reserves public transportation for visually impaired users. In this app, I can save various places to *My Places*. For testing purposed. I have 5 places saved already. But when I navigate to *My Places* screen, I only see 3. There's an obvious issue here. How to approach it? I could check the database and get a result set of 5. That would mean a UI issue, and I'd file a bug report with my mobile developers not the back-end ones.
 
@@ -107,8 +106,9 @@ Basically, the server greets the guest user with a welcome, providing me with th
 
 Let's highlight another call:
 
-    Code	    Method	    Host		    Path				        …
-    200	        POST		app.name	    /api/appName/userinfo	    …
+    Code        Method      Host        Path                            ...
+    200         POST        app.name    /api/appName/userinfo           ...
+
 
 This looks like that after logging in I go to the *My Account* screen of the app, even though I don't. The *userinfo* bit looks like something that would be requested when a user goes to their account. In fact, even though I do not go to *My Account*, when I login the app actually gets the information about the user right away. It's just programmed that way.
 
@@ -152,7 +152,12 @@ Overall, the typical debugging activities I conduct with Charles Proxy are:
 4. Throttling
 5. Breakpoints
 
-Logging comprises only 20% of the time I spend on Charles. The other 80% of tasks and features, such as Re-Write, Map Local, Throttling, and Breakpoints are covered in this [post](url) (TBD).
+Once again, one may ask "Why not use Postman for activity logging and tracking?". Postman itroduced the [Postman Interceptor](https://learning.postman.com/docs/sending-requests/capturing-request-data/interceptor/#:~:text=Postman%20Interceptor%20is%20a%20Chrome,bound%20session%20of%20traffic%20capture.), which attempts to accomplish the same thing as Charles Proxy. We can turn it on and record the traffic communication between the web or mobile app and the back-end. If you choose to explore the [Interceptor](https://blog.postman.com/postman-interceptor-the-next-generation-view-source-for-the-api-economy/), make sure to use with the desktop version of Postman. It doesn't work with the Postman web app.
+I personally do not use the Interceptor because **Logging** only comprises 20% of the time I spend on Charles. The other 80% of tasks and features, such as Re-Write, Map Local, Throttling, and Breakpoints are covered in this [post](url) (TBD).
+
+Another use case for Charles is mimicking Network Conditions on real (physical) Android devices. I can test Network Condition on (virtual) Android emulators with the help of Android Studio or via a command line interface or terminal using ADB (Android Debug Bridge) commands.
+
+
 ___
 
 [What is Proxy? How does it work?](https://github.com/lana-20/proxy-server#readme)
