@@ -158,28 +158,11 @@ I personally do not use the Interceptor because **Logging** only comprises 20% o
 Another use case for Charles is mimicking Network Conditions on real (physical) Android devices. I can test Network Condition on (virtual) Android emulators with the help of Android Studio or via a command line interface or terminal using ADB (Android Debug Bridge) commands.
 
 
-___
-
-[What is Proxy? How does it work?](https://github.com/lana-20/proxy-server#readme)
-
-[What is (HTTP) Proxy?](https://github.com/lana-20/ssl-tls-http-https/blob/main/README.md)
 
 ___
 
-Charles can be installed in our machines as a desktop app. We can also install it on iOS device without connecting Xcode, but the mobile app has some limitations. The iOS version of Charles covers some extra scenaros, however usually I use the desktop app which is much more feature- and functionality-rich.
-
-Charles configuration may be a bit complex, but its benefits are more than worth it. There's a 30-day free trial, after which a $50 life-time license is available for purchase. Without a license after a free trial, Charles still works but it shuts down every 30 minutes, which is usually enough to test. You can just restart it and keep testing.
-
-[Configuring Charles Proxy](https://github.com/lana-20/charles-setup):
-
-- [Mac]()
-- [Windows]()
-- [Mac and iOS device](https://youtu.be/vtSLoCC299U)
-- [iOS device]()
-- [Android device]()
-- [Android emulator](https://youtu.be/WJYf9nkSIKA)
-  - Sometimes when installing the certificate on an emulator, the page [chls.pro/ssl](chls.pro/ssl) is not loading. This tutorial (TBD), shows an alternative way of installing the certificate on the emulator. 
-Also you may try to head over to [charlesproxy.com/getssl](charlesproxy.com/getssl) if the short url [chls.pro/ssl](chls.pro/ssl) doesn’t work.
+- [What is Proxy? How does it work?](https://github.com/lana-20/proxy-server#readme)
+- [What is (HTTP) Proxy?](https://github.com/lana-20/ssl-tls-http-https/blob/main/README.md)
 
 
 Charles Proxy Tutorials:
@@ -203,6 +186,7 @@ Status Codes and Protocols:
 Notes:
 
 - [Notes on Charles Proxy](https://github.com/lana-20/charles-notes)
+- [Configuring Charles Proxy](https://github.com/lana-20/charles-setup)
 
 
 
