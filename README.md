@@ -70,11 +70,75 @@ A lot of things can happen. It can be hard to figure out if the issue belongs to
 6. **Was the response correct?**
     - If I do receive a response from the server, is this response correct? Do I receive 5 places? Or, do I receive 3 places because a developer made a mistake in the SQL query?
 7. **Did the client fail to handle the response?**
-    - If I receive 5 places back, and eveything is fine, maybe I fail to display all the results. Maybe a developer limited the number of entries in a particulat table to be 3, instead of as many as defined by the requirements? That may be a reason for not showing all the places.
+    - If I receive 5 places back, and everything is fine, maybe I fail to display all the results. Maybe a developer limited the number of entries in a particulat table to be 3, instead of as many as defined by the requirements? That may be a reason for not showing all the places.
 
-It's time to roll up the sleeves and practice with Charles Proxy. The main purpose of Charles is the answer the above captioned 7 questions. We can trace our app activity. In order to to be able to read data, we should go through the installation and configuration steps first. For the Charles to be trusted by the outside world, we need to install the Charles SSL certificate on the computer. Another certificate must be installd of the mobile device. In total, we need 2 SSL certificate - the mobile device and the computer - because they need to communicate and trust each other.
+It's time to roll up the sleeves and practice with Charles Proxy. The main purpose of Charles is the answer the above captioned 7 questions. We can trace our app activity. In order to to be able to read data, we should go through the installation and configuration steps first. For the Charles to be trusted by the outside world, we need to install the Charles SSL certificate on the computer. Another certificate must be installed of the mobile device. In total, we need 2 SSL certificates - the mobile device and the computer - because they need to communicate and trust each other.
 
 When we open Charles on the desktop, we see some random sequences running, with such as Code, Method, Host, Path, Start, Duration, Size, and Status. At the moment, Charles is trying to log something that is happening on my computer. And, while we can use Charles for web-based app debugging if needed, I want to focus on the mobile devices. In order to get rid of the undesired traffic from my computer, I go to the Proxy menu and uncheck **macOS Proxy**. Afterwards, there should be no interference coming from the computer.
+
+I open an Android emulator, which is already preconfigured, it has its own Charles SSL certifcate installed in addition to the one I have on my computer. I login as a guest to my app. I am not using Postman or anything, I'm just trying to communicate to the back-end of behalf of the app. When I tap the Login button, a few calls get executed. I can highlight the call sequence and view the different data representations or pieces of information I may need - Overview, Contents, Summary, Chart, and Notes. I go ahead and highligt one call:
+
+    Code        Method      Host        Path                            ...
+    200         POST        app.name    /api/appName/guest_login        ...
+
+The Overview tab shows the URL that I hit, status complete, response code 200. It also displays timing - when the request and response started and ended, and the duration of communication. It's important to know how long it takes to send a request and receive a response. Consider a scenario when every time I go to *My Places* screen, it takes a long time to load. Of course, I can record a video. And I can also run Charles and get the exact number for how long it takes. I might as well execute multiple runs and calculate the average duration time. When reporting the bug, it's useful to attach the Charles log (.chls file) to evidence how long it took.
+
+Now, moving onto the Contents tab, which is where I spend most of my time. It displays what is being sent to the server:
+
+    {
+    “username”: “549w73445675676”
+    “captcha”: “appname_android”
+    }
+
+Basically, the app is saying that I am trying to login with a randomly generated user, and this user is bypassing captcha. That is a typical flow for my app - in order to login as a guest, I need a randomly generated username stating that I'm bypassing captcha.
+
+And here's what the server responds with (in JSON Text):
+
+    {
+    “last login”: 1629856473
+    “user”: {
+        “renew_token”: “qe876849gnkdfg654768936563hgkl“,
+        “token”: “545768hdukhg678sdhkjhyy”,
+        “user_key”: “549w73445675676_7572”
+            } 
+    }
+
+Basically, the server greets the guest user with a welcome, providing me with the user key with the token to be eligible to communicate with the app and so on. The end-point user is not going to see that much.
+
+Let's highlight another call:
+
+    Code	    Method	    Host		    Path				        …
+    200	        POST		app.name	    /api/appName/userinfo	    …
+
+This looks like that after logging in I go to the *My Account* screen of the app, even though I don't. The *userinfo* bit looks like something that would be requested when a user goes to their account. In fact, even though I do not go to *My Account*, when I login the app actually gets the information about the user right away. It's just programmed that way.
+
+The Contents tab if this *userinfo* endpoint displays the following:
+
+    {
+    “user_key”: “549w73445675676_7572”,
+    “token”: “545768hdukhg678sdhkjhyy”
+    }
+
+The app instantly passes the token that gets generated during login. It allows me to receive the information about the user, the response from the server in JSON Text format:
+
+    {
+    “user”: {
+            “condition”: “guest”,
+            “created”: 1628780774,
+            “email”: “guest.549w73445675676@appname.com”,
+            “first”: “”,
+            “last”: “”,
+            “last_accessed”: 1629856473,
+            “last_login”: 1629856473,
+            “last_modified”: 1629856879,
+            “picture”: “https://appname.com/api/appName/pictures/guest”,
+            “user_id”: 7572,
+            “username”: “guest.549w73445675676”
+            }
+    }
+
+We are viewing this response for informational purposes. The response in itself is not that meaningful. It merely states that I am a guest and provides my auto generated email which also serves as my unique identifier. Without a unique identifier I cannot login, that's why the system generates those emails. I can also view my user_id, the first and the last time I logged in, and that's basically it.
+
 
 
 #TODO - finish Charles practice notes and illustrations
