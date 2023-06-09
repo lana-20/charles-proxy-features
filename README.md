@@ -56,11 +56,25 @@ When the 'GET places for the user' request does not return all of *My Places*, I
 
 Did the app actually request the places? What if it requested something else? What if there are problems with the API call? What if the app actually executes POST or DELETE in lieu of GET? What if there's a problem with the what tha app is asking for? What if the developers wrote a query with some issues, which returns an inaccurate result set?
 
-A lot of things can happen. It can be hard to figure out if the issue belongs to the front- or back-end. We may encounter issues in many places, highlighted in the **7 questions** above.
+A lot of things can happen. It can be hard to figure out if the issue belongs to the front- or back-end. We may encounter issues in many places, highlighted in the **7 questions** posed by the creator of Charles.
 
+1. **Did I send a request?**
+    - I may not be sending any requests. When debugging such a situation, in the app we want to check if it even sent the request. Did the app even request anything again? Perhaps, I am seeing 3 places because they are coming from the cache, and the app does not make another request every time I open *My Places* screenview. Did I even send the request?
+2. **Was the request correct?**
+    - If I sent the request, was this request correct? Did I actually request places for the particular user or something else? Or, did I somehow get a hard coded used_id who is not my currect user?
+3. **Did the server fail?**
+    - If the request was correct, did the server fail? Or, did the network fail? We use the internet connection, and there may be some interruptions along the way; the network can fail. When my app communicates with the back-end, mostly I use the HTTPS protocol. HTTPS uses the network, otherwise it wouldn't work. So, it may be a network failure.
+4. **Did the network fail?**
+5. **Did I receive a response?**
+    - Did I receive any response at all? Let's say, I request *My Places* for the app user, but nothing comes back, the server sends no responsem, and I still see the 3 places that have been cached from the last time. If I go to the database directly and still get the result set with 5 places, it is still unclear where the problem lies.
+6. **Was the response correct?**
+    - If I do receive a response from the server, is this response correct? Do I receive 5 places? Or, do I receive 3 places because a developer made a mistake in the SQL query?
+7. **Did the client fail to handle the response?**
+    - If I receive 5 places back, and eveything is fine, maybe I fail to display all the results. Maybe a developer limited the number of entries in a particulat table to be 3, instead of as many as defined by the requirements? That may be a reason for not showing all the places.
 
+It's time to roll up the sleeves and practice with Chatles Proxy.
 
-
+#TODO - Charles practice notes and illustrations
 
 ___
 
