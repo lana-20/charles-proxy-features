@@ -42,16 +42,16 @@ Privacy, speed, bandwidth savings, activity logging are the benefits of using a 
 
 When can such activity **logging** be useful? Let's say, you **open an app and see less content that you expect**. How would you approach that?
 
-For example, I am working on an app that reserves public transportation for visually impaired users. In this app, I can save various places to *My Places*. For testing purposed. I have 5 places saved already. But when I navigate to *My Places* screen, I only see 3. There's an obvious issue here. How to approach it? I could check the database and get a result set of 5. That would mean a UI issue, and I'd file a bug report with my mobile developers not the back-end ones.
+For example, I am working on an app that reserves public transportation for visually impaired users. In this app, I can save various places to *My Places*. For testing purposed. I have 3 places saved already. But when I navigate to *My Places* screen, I only see 2. There's an obvious issue here. How to approach it? I could check the database and get a result set of 2. That would mean a UI issue, and I'd file a bug report with my mobile developers not the back-end ones.
 
-However, things can go wrong in many places, there is a long way between the UI and the database. I could query the database and get 5 places in return. But that would not immediately indicate a UI bug. In order to be sure, I need to closely trace how my app's UI side communicates with the backend. Apparently, when I login I do not query the database directly. There are all sorts of API methods - GET, PUT, POST, PATCH, DELETE. When I look for *My Places*, the app makes an API request to GET places for the user. I know which users are logged in when I'm in my app. For a particular logged in user, the app asks the back-end to provide their places. Then the back-end goes and retrieves those places from the database. Behind the scenes, it means that once the app executes this request, asking for places for a specific user, the back-end selects places from the Places table:
+However, things can go wrong in many places, there is a long way between the UI and the database. I could query the database and get 3 places in return. But that would not immediately indicate a UI bug. In order to be sure, I need to closely trace how my app's UI side communicates with the backend. Apparently, when I login I do not query the database directly. There are all sorts of API methods - GET, PUT, POST, PATCH, DELETE. When I look for *My Places*, the app makes an API request to GET places for the user. I know which users are logged in when I'm in my app. For a particular logged in user, the app asks the back-end to provide their places. Then the back-end goes and retrieves those places from the database. Behind the scenes, it means that once the app executes this request, asking for places for a specific user, the back-end selects places from the Places table:
 
     SELECT place from Places
     WHERE user_id = ' ... '
 
 There is a chance that a developer made a mistake when composing a query. They may forget something or not GROUP by something. We might have to query multiple tables. The developers are human, they can make mistakes.
 
-When the 'GET places for the user' request does not return all of *My Places*, I instantly go into the database directly. If I write a correct query, but my the devs didn't, I retrieve the correct result set of 5 places. But there is no error thrown to indicate an issue. I should have started debugging by first figurng out what the app was actually requesting.
+When the 'GET places for the user' request does not return all of *My Places*, I instantly go into the database directly. If I write a correct query, but my the devs didn't, I retrieve the correct result set of 3 places. But there is no error thrown to indicate an issue. I should have started debugging by first figurng out what the app was actually requesting.
 
 Did the app actually request the places? What if it requested something else? What if there are problems with the API call? What if the app actually executes POST or DELETE in lieu of GET? What if there's a problem with the what tha app is asking for? What if the developers wrote a query with some issues, which returns an inaccurate result set?
 
@@ -65,11 +65,11 @@ A lot of things can happen. It can be hard to figure out if the issue belongs to
     - If the request was correct, did the server fail? Or, did the network fail? We use the internet connection, and there may be some interruptions along the way; the network can fail. When my app communicates with the back-end, mostly I use the HTTPS protocol. HTTPS uses the network, otherwise it wouldn't work. So, it may be a network failure.
 4. **Did the network fail?**
 5. **Did I receive a response?**
-    - Did I receive any response at all? Let's say, I request *My Places* for the app user, but nothing comes back, the server sends no responsem, and I still see the 3 places that have been cached from the last time. If I go to the database directly and still get the result set with 5 places, it is still unclear where the problem lies.
+    - Did I receive any response at all? Let's say, I request *My Places* for the app user, but nothing comes back, the server sends no responsem, and I still see the 2 places that have been cached from the last time. If I go to the database directly and still get the result set with 3 places, it is still unclear where the problem lies.
 6. **Was the response correct?**
-    - If I do receive a response from the server, is this response correct? Do I receive 5 places? Or, do I receive 3 places because a developer made a mistake in the SQL query?
+    - If I do receive a response from the server, is this response correct? Do I receive 3 places? Or, do I receive 2 places because a developer made a mistake in the SQL query?
 7. **Did the client fail to handle the response?**
-    - If I receive 5 places back, and everything is fine, maybe I fail to display all the results. Maybe a developer limited the number of entries in a particulat table to be 3, instead of as many as defined by the requirements? That may be a reason for not showing all the places.
+    - If I receive 3 places back, and everything is fine, maybe I fail to display all the results. Maybe a developer limited the number of entries in a particulat table to be 2, instead of as many as defined by the requirements? That may be a reason for not showing all the places.
 
 It's time to roll up the sleeves and practice with Charles Proxy. The main purpose of Charles is the answer the above captioned 7 questions. We can trace our app activity. In order to to be able to read data, we should go through the installation and configuration steps first. For the Charles to be trusted by the outside world, we need to install the Charles SSL certificate on the computer. Another certificate must be installed of the mobile device. In total, we need 2 SSL certificates - the mobile device and the computer - because they need to communicate and trust each other.
 
@@ -146,7 +146,7 @@ In order to filter out the extra unnecessary information, we use the Filter feat
     Code        Method      Host        Path                                        ...
     200         POST        app.name    /api/appName/places/getuserplaces           ...
 
-I see 3 places instead of 5. While Charles Proxy is running, I go to *My Places* screen. Annd with the help of Charles, I can figure out the user_key and token that were sent to the server (see the Contents tab):
+I see 2 places instead of 3. While Charles Proxy is running, I go to *My Places* screen. Annd with the help of Charles, I can figure out the user_key and token that were sent to the server (see the Contents tab):
 
     {
     “user_key”: “549w73445675676_7572”,
@@ -171,7 +171,13 @@ I see 3 places instead of 5. While Charles Proxy is running, I go to *My Places*
     “user_key”: 7572
     }]
 
+JSON is how the data between the API calls is formatted. In the back-end it might send SQL queries in an Oracle database, for example, and the result set gets parsed into JSON and returned to us.
 
+Charles is the "man in the middle" that reveals all the secrets - what was actually sent and what was asked for. It helps us verify that we are not getting what we're expecting to get, when the submitted user_key is something that got cached from a previous user. So, something is incorrect about the user_key, which is why I'm not getting all the content I'm supposed to get. It is a real possibility that can happen with any application.
+
+So, now that I know 1 place is not showing up in the list of places on the UI side, I am ready to file a bug report addressed to the mobile developer. But how can I prove that there is a place that should be visible on the front-end but are not? Perhaps, there is a mistake in the code, and some or all of the custom places are not showing. Certainly, I can support the bug report with a screenshot and a result set fo the SQL query, but it's insufficient. I generate a Charles log and attach it to the report. To do that, we can go to File and select an option Save Session or Save Session As, and save it as log.chls file. Now we can attach this file to JIRA, which support the .chls file format. When the developer receives the report, they download the log.chls file, double-click it, and the file opens in the Charles app itself. The developer is able to view everything we experience when we test the app. The developer look at the call **appName/places/getuserplaces** accessing *My Places*, and now they are convinced because the Charles log shows Space Needle coming from the back-end but not showing in the app's UI. 
+
+Collecting Charles logsis a piece of cake for testers and developers. It's a simple but helpful feature.
 
 #TODO - finish Charles practice notes and illustrations
 
