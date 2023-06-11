@@ -12,11 +12,11 @@ For *Android* versions of the app *only*, the developers provide testers with a 
 
 Overall, the typical debugging activities I conduct, as a mobile tester, with Charles Proxy are:
 
-1. Logging
-2. Throttling
-3. Map Local
-4. Re-Write
-5. Breakpoints
+1. [Logging](https://github.com/lana-20/charles-proxy/blob/main/README.md#logging)
+2. [Throttling](https://github.com/lana-20/charles-proxy/blob/main/README.md#throttling)
+3. [Map Local](https://github.com/lana-20/charles-proxy/blob/main/README.md#map-local)
+4. [Re-Write](https://github.com/lana-20/charles-proxy/blob/main/README.md#re-write)
+5. [Breakpoints](https://github.com/lana-20/charles-proxy/blob/main/README.md#breakpoints)
 
 ## Logging
 
