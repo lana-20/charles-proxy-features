@@ -139,6 +139,38 @@ The app instantly passes the token that gets generated during login. It allows m
 
 We are viewing this response for informational purposes. The response in itself is not that meaningful. It merely states that I am a guest and provides my auto generated email which also serves as my unique identifier. Without a unique identifier I cannot login, that's why the system generates those emails. I can also view my user_id, the first and the last time I logged in, and that's basically it.
 
+Now, I go to *My Places* as a guest user. Because I've already logged in as a user a couple of times before, the user details, including *My Places*, are saved on the device. This is the reason why I have places, and it is the call I want to find.
+
+In order to filter out the extra unnecessary information, we use the Filter feature. If we enter "app" or "appname" in the Filter, we only see the calls/entries related to this host name. Upon filtering, let's only focus on the entries related to the app's communication with the back-end. The below captioned entry is the one requesting places:
+
+    Code        Method      Host        Path                                        ...
+    200         POST        app.name    /api/appName/places/getuserplaces           ...
+
+I see 3 places instead of 5. While Charles Proxy is running, I go to *My Places* screen. Annd with the help of Charles, I can figure out the user_key and token that were sent to the server (see the Contents tab):
+
+    {
+    “user_key”: “549w73445675676_7572”,
+    “token”: “545768hdukhg678sdhkjhyy”
+    }
+
+**appName/places/getuserplaces** is what I'm requesting. In some apps there would be another "/" and a user_id, but this example app approaches it differently. It sends a sorted username and sorted password, once it hits the server the latter queries the information for my user and returns 3 places - Home (intentionally left blank), Work (intentionally left blank), and Seattle Space Needle (custom location). I can also see the same places on the mobile screen.
+
+    [{
+    “address_type”: “home”
+    }, {
+    “address_type”: “work”
+    }, {
+    “address”: “Space Needle\n 400 Broad Street, Seattle, Washington, United States, 98109”,
+    “address_type”: “custom”,
+    “created”: 1620870663,
+    “last_modified”: 1620870663,
+    “lat”: 47.620422,
+    “lon”: -122.349358,
+    “name”: “Space Needle”, 
+    “place_id”: 2,
+    “user_key”: 7572
+    }]
+
 
 
 #TODO - finish Charles practice notes and illustrations
