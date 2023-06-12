@@ -360,7 +360,7 @@ The code has changes from 200 to 500. We are experiencing a Server Error. If I g
 
 Checking how the application handles server errors is a very valuable scenario. It's crucial to verify the app does not crash when it receives the 500 Server Error. When the server is down, we expect a generic user message saying something like "something went wrong, please try again". When a user sees an empty *My Account* view, they do not understand what's happening. Hence, on the UI side it's useful to generate a toast message notifying of a problem. The 500 errors can be very generic and hard to isolate but they do happen, and the app does not know the specific nature of the problem.  That's why a generic UI message would suffice to verify the app handles such errors gracefully.
 
-To verify the ourcome of Server Errors without a tool like Charles Proxy would mean asking the back-end developers to shut down the QA server. This would be an unfeasible and unprofessional approach to this testing scenario.
+To verify the outcome of Server Errors without a tool like Charles Proxy would mean asking the back-end developers to shut down the QA server. This would be an unfeasible and unprofessional approach to this testing scenario.
 
 When done testing, remember to uncheck the [Enable] Rewrite, individually or in bulk.
 
@@ -368,7 +368,22 @@ When done testing, remember to uncheck the [Enable] Rewrite, individually or in 
 
 Now, let's explore the **Breakpoints** feature with a different mobile application. It's an advertising/marketing platform for various commercial brands like Uniqlo, Target, etc., to post videos, surveys, and trivia questions for the users to complete/view and earn points. Later the user can redeem these points, for example, as gift cards for movies.
 
-In Charles Proxy, let's type "appname" in the Filter field to focus on the AUT. 
+Different apps have different goals, but a lot of apps are trying to make users return and stay as long as possible. The AUT in this example tries to improve user retention, it has a new feature called *My Streak*. It is one of the ways to boost up the user points by motivating the users to visit the app more often. The app offers extra points if a user logs in a few days in a row. If I check in for 4 days, I get a 5% bonus, 15 days - a 10% bonus, and 30 days - a 15% bonus.
+
+
+The *Streak* screen states "In 3 days you'll get a +5.0% bonus on all point earnings!" This is a motivation for a user to come back. In my case, it's 3 days (not 4) because I already have a 1-day check-in.
+
+<img width="500" src="https://github.com/lana-20/charles-proxy/assets/70295997/4b8a6c23-fc8a-4814-9a0e-ed92bfe5f58a">
+
+
+In Charles Proxy, let's type "appname" in the Filter field to focus on the AUT. Here are the relevant call sequences:
+
+    Code    Method  Host                    Path					…
+    200     GET     api.appname.com         /app/v1/user/affiliate/list		…
+    200     GET     api.appname.com         /app/v1/streak				…
+    200     GET     api.appname.com         /app/v1/balance     			…
+    200     GET     api.appname.com         /app/v1/user        			…
+
 
 
 #TODO - finish Charles practice notes and illustrations
