@@ -317,10 +317,27 @@ So, let's create multiple places and save the file as multi_reservations.json (n
     “user_key”: 7572
     }]
 
+So, we want to fool the app. We want Charles to send to the app the data which we've just defined in the multi_reservations.json file, instead of what actually got retrieved from the database. Let's right-click on the call, copy the URL, go to Tools > Map Local, and click Add. The Edit Mapping menu opens. In the Map From section, paste the URL and click outside. In the Map To section, we want to choose the multi_reservations.json file from the local machine. Provide the local path, click OK, and then OK again. Make sure that in the Tools menu, [Enable] Map Local option is checked/activated.
 
-...
+Now, in my transportation app, I navigate outside of the *My Places* screen and navigate back to it again. I.e., go to the *My Account* call /api/appname/userinfo in Charles, the go to the *My Places* call /api/appname/places/getuserplaces again. And ta-da! The mobile screen diplays all the places added to the JSON file.
+
+When we need to run such a test case, we can just attach the JSON file to the test case and use it every time we need it. We don't have to create, insert, or delete anything afterwards, we can just 'fool' the app. The whole idea is to be able to test the UI side - verify we can see 30 places, we do not see the 31st place, and that the view is scrollable. With the help of Charles is super simple to pass data to the app on behalf of the back-end.
+
+Map Locals stay recorded in Charles. You can de-activate them individually or in bulk. You don't have to recreate them every time, only to select or deselect specific "local files to serve remote locations" for testing.
+
+At the end of the test, I have JSON files with 30 and 31 places. When done testing, I uncheck the Map Local boxes that I don't need any longer. So, I uncheck my local JSON file in Map Local, so that I can see the regular *My Places* screen with the 3 places I actually have - Home, Work, and Space Needle.
+
+Web app testing would work the same. The below examples are testing web-based apps:
+    - Modify Requests, Responses, Status Codes, etc.  
+        - https://medium.com/@IlyaEremin/modify-api-response-for-android-app-with-charles-181a822cfc24
+        - http://www.testeffective.com/better-mobile-app-testing-with-charles-proxy/
+        - https://www.thinktecture.com/en/tools/debugging-proxies-mocking-manipulating-api-charles-in-action/ 
+
 
 ## Re-Write
+
+The **Rewrite** feature is somewhat similar to Map Local, but it's more useful when testing something small, i.e. a small piece of data. Rewrite achieves the same results, but may ne less convenient than Map Local. With Map Local, we can just work with a file which is easier to read. With Rewrite, we copy/paste everything in one field.
+
 
 ...
 
