@@ -206,6 +206,22 @@ Charles also has 3 other features that I love - Map Local, Re-Write and Breakpoi
 
 ## Map Local
 
+Let's consider a scenario where I have a requirement that allows up to 30 places under *My Places*. It means I can add 30 places max, and the app should display those places accordingly. To test boundary conditions, I use the test data of 30 and 31 days.
+
+Some questions that come to mind in this test scenario are: Where does the 31st place go? Does it replace any of the existing 30 places? Does the '+' Add button get disabled, once 30 places are added - which is not such a good user experience? Or, if I tap the '+' Add button when creating the 31st place, do I get a popop message or an alert stating something like "30 is max. You've reached the max. Please delete something"?
+
+With the test data and my test case in place, I can now go ahead and manually create the 30 places in the app. I tap the '+' Add button, search for a place/address, name the selected location, and tap Save. I expect some call to be happening in the back-end to update the database, such as:
+
+    Code        Method      Host        Path                        ...
+    200         POST        app.name    /api/appName/places/add     ...
+    
+
+Or, instead of manually creating place one by one, I can test this scenario with the help of Postman. I could run the same request and send information with a bunch of places to the back-end, so they all get added. It's a reasonable approach, which I could use to add the 31st place. However, I should not forget to delete those places upon test execution. It may get complicated. Once a record is inside the database, it's inside, unless I delete it. Sometimes I have to delete everything, but keep Home and Work, so I have to figure out how to only delete the intended places from the database. It can be inconvenient and time-consiming.
+
+I could generate the data with Postman, or could actually add the data to the database directly by using the UPDATE command. But what if I don't want to save anything in the database? My main intent is to verify that I can fit 30 places on the *My Places* screen, that it is scrollable and all, and that the 31st place does not get added.
+
+I can fool the app, because Charles as the 'man in the middle' has the beautiful ability to intercept requests and responses, decrypt them, and display them in the Charles UI.
+
 ...
 
 ## Re-Write
