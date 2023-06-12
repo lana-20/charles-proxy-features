@@ -348,19 +348,27 @@ Let's click Add and observe the Edit Location menu appear with fields, such as P
 
 We can choose to Rewrite the Body, but then we have to provide everything we want to rewrite in the Value field. This field is not limited, but it's inconvenient to edit. I cannot see the 'whole picture' of the test data, as I can by reading a file with Map Local. That's why, again, I prefer to use Rewrite to turn a feature on or off. But let's get back to our Server Error scenario.
 
-We are testing a scenario when the app request the information about a user, and the server returns the 500 status. So, we do not rewrite the response Body, we rewrite the response Status. To replace the real information coming from the back-end server, I input 500 in the Values field and tap Save. Back in the Rewrite Setting, we now see Type:Status, Action:500.
+We are testing a scenario when the app request the information about a user, and the server returns the 500 status. So, we do not rewrite the response Body, we rewrite the response Status. We cannot change the Status with Map Local. To replace the real information coming from the back-end server, I input 500 in the Values field and tap Save. Back in the Rewrite Setting, we now see Type:Status, Action:500.
 
-Let's check what happens with the transportation app. I restart it and login the the existing user credentials. I'm inside my mobile app, but the the code that is showing for the 'userinfo' call is 500 now:
+Let's check what happens with the transportation app. I restart it and login with the existing user credentials. I'm inside my mobile app, but the the code that is showing for the 'userinfo' call is 500 now:
 
 
     Code        Method      Host        Path                        ...
     💣500       POST        app.name    /api/appName/userinfo       ...
 
-...
+The code has changes from 200 to 500. We are experiencing a Server Error. If I go to *My Account* I see no information about the user. The server does return something, but because of the 500 Server Error the app is not consuming it. The app thinks that the server response merely arrived with an error. Thanks to that, the app doesn't show any of the "userinfo", but at least it's not crashing.
+
+Checking how the application handles server errors is a very valuable scenario. It's crucial to verify the app does not crash when it receives the 500 Server Error. When the server is down, we expect a generic user message saying something like "something went wrong, please try again". When a user sees an empty *My Account* view, they do not understand what's happening. Hence, on the UI side it's useful to generate a toast message notifying of a problem. The 500 errors can be very generic and hard to isolate but they do happen, and the app does not know the specific nature of the problem.  That's why a generic UI message would suffice to verify the app handles such errors gracefully.
+
+To verify the ourcome of Server Errors without a tool like Charles Proxy would mean asking the back-end developers to shut down the QA server. This would be an unfeasible and unprofessional approach to this testing scenario.
+
+When done testing, remember to uncheck the [Enable] Rewrite, individually or in bulk.
 
 ## Breakpoints
 
-...
+Now, let's explore the **Breakpoints** feature with a different mobile application. It's an advertising/marketing platform for various commercial brands like Uniqlo, Target, etc., to post videos, surveys, and trivia questions for the users to complete/view and earn points. Later the user can redeem these points, for example, as gift cards for movies.
+
+In Charles Proxy, let's type "appname" in the Filter field to focus on the AUT. 
 
 
 #TODO - finish Charles practice notes and illustrations
