@@ -384,7 +384,31 @@ In Charles Proxy, let's type "appname" in the Filter field to focus on the AUT. 
     200     GET     api.appname.com         /app/v1/balance     			…
     200     GET     api.appname.com         /app/v1/user        			…
 
+*Streak* is a new feature, and I am assigned to test the user story. One of the acceptance criteria in the user story is that when a user hits 4+ days (+5.0% bonus), the progress bar should turn orange up to the next boundary on the range slider. When a user hits 15+ days (+10.0% bonus), the progress bar should turn orange up to the next boundary again. If a user visits the app for 30+ days in a row and reaches the +15.0% bonus, the bar should turn orange rightwards up to the next boundary once again. So, the test data is: 0, 1, **4**, 5, **15**, 16, **30**, 31 (boundary values plus one single in-between value for every range).
 
+Let's look at the Contents tab, Headers subtab for the "/app/v1/streak" call. At the very end there is a summary:
+
+    …
+    }],
+    “user”: {
+    “id”: “eellaa4d-4a25-9b0d-af38ce246dc0”,
+    “userId”: “21093984-b09b-4ae5-95ad72eaa0d”,
+    “streakDate”: “2023-06-12”,
+    “streakCount”: 1,
+    “bonus”: 0.00,
+    “earning”: null,
+    “credited”: null,
+    “checkInDate”: 1686592074094,
+    “earningDate”: null,
+    “checkedIn”: true,
+    “currentStreakTotal”: null,
+    “lifetimeStreakTotal” null:
+    }
+    }
+
+If we test the test case manually, we'll be here for a month. We don't have 31 days to spend on waiting, when our sprints are 1-2 weeks long. Instead, we should use the Charles Breakpoints feature and complete the task in 30 minutes.
+
+**Breakpoints** pause the execution, which we see in automation tests. Developers and SDETs use breakpoints when they debug a program to see what's happening at a particular execution step. Charles can pause execution of our requests and responses, and we can modify those in real time.
 
 #TODO - finish Charles practice notes and illustrations
 
