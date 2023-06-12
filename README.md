@@ -325,19 +325,36 @@ When we need to run such a test case, we can just attach the JSON file to the te
 
 Map Locals stay recorded in Charles. You can de-activate them individually or in bulk. You don't have to recreate them every time, only to select or deselect specific "local files to serve remote locations" for testing.
 
-At the end of the test, I have JSON files with 30 and 31 places. When done testing, I uncheck the Map Local boxes that I don't need any longer. So, I uncheck my local JSON file in Map Local, so that I can see the regular *My Places* screen with the 3 places I actually have - Home, Work, and Space Needle.
+At the end of the test, I have two JSON files with 30 and 31 places respectively. When done testing, I uncheck the Map Local boxes that I don't need any longer. So, I uncheck my local JSON file in Map Local, so that I can see the regular *My Places* screen with the 3 places I actually have - Home, Work, and Space Needle.
 
-Web app testing would work the same. The below examples are testing web-based apps:
-    - Modify Requests, Responses, Status Codes, etc.  
-        - https://medium.com/@IlyaEremin/modify-api-response-for-android-app-with-charles-181a822cfc24
-        - http://www.testeffective.com/better-mobile-app-testing-with-charles-proxy/
-        - https://www.thinktecture.com/en/tools/debugging-proxies-mocking-manipulating-api-charles-in-action/ 
+Web app testing would work the same. The below examples are for testing web-based apps:
+- Modify Requests, Responses, Status Codes, etc.
+    - https://medium.com/@IlyaEremin/modify-api-response-for-android-app-with-charles-181a822cfc24
+    - http://www.testeffective.com/better-mobile-app-testing-with-charles-proxy/
+    - https://www.thinktecture.com/en/tools/debugging-proxies-mocking-manipulating-api-charles-in-action/ 
 
 
 ## Re-Write
 
-The **Rewrite** feature is somewhat similar to Map Local, but it's more useful when testing something small, i.e. a small piece of data. Rewrite achieves the same results, but may ne less convenient than Map Local. With Map Local, we can just work with a file which is easier to read. With Rewrite, we copy/paste everything in one field.
+The **Rewrite** feature is somewhat similar to Map Local, but it's more useful when testing something small, i.e. a small piece of data. Rewrite achieves the same results, but may be less convenient than Map Local. With Map Local, we can just work with a file which is easier to read. With Rewrite, we copy/paste everything in one field.
 
+Just as Map Local, we can also locate the Rewrite feature under the Tools menu. Have it checked to activate the feature. We can open the Rewrite Settings, which modify requests and responses as that pass through Charles, and turn on/off a particular feature in the application under test. For example, in my transportation app, there is a *Stored Account* feature, the Signin screen has a "Stored Account' button at the bottom. When I tap on it, I get the message "not yet available". Maybe, it is or will not be available at all. Maybe it will be available, but has not been thoroughly tested yet and should not ne shown to the user. In this case, the app can hide a particular feature behind a feature flag.
+
+Rewrite in Charles is the only tool for me to be able to turn on/off a particular feature. Set it to True to display a feature to the user, set it to False to not show it.
+
+Another popular use for Rewrite, is testing the scenario when the server returns a 500 status. So, let's say, I have to test how the app handles Server Errors, because sometimes servers fail and testers observe a 500 error. We want to make sure that the app does not crash if the server fails. We must specify the location/enspoint we're going to rewrite. This time, I'm going to rewrite the User Info /api/appname/userinfo. I copy the call's URL and give it a the name UserNameServerError.
+
+Let's click Add and observe the Edit Location menu appear with fields, such as Protocol, Host, Port, Path, and Query. We can populate them manually, Or, we can paste the URL and click outside of the field so that it auto-populates, and then click OK. Now, the path shows in the Location section of Rewrite Settings. This indicates to Charles that every time the app executes this request, we need to make some modifications. What modifications? We can define them by tapping Add on the bottom of the Rewrite Settings menu. Tbe Rewrite Rule menu opens, and we can modify a bunch of things. The Type dropdown menu has options Add/Modify/Remove Header, Host Path, URL, Add/Modify/Remove Query Param, Response Status, and Body. Most often, I modify the Request and Response Body.
+
+We can choose to Rewrite the Body, but then we have to provide everything we want to rewrite in the Value field. This field is not limited, but it's inconvenient to edit. I cannot see the 'whole picture' of the test data, as I can by reading a file with Map Local. That's why, again, I prefer to use Rewrite to turn a feature on or off. But let's get back to our Server Error scenario.
+
+We are testing a scenario when the app request the information about a user, and the server returns the 500 status. So, we do not rewrite the response Body, we rewrite the response Status. To replace the real information coming from the back-end server, I input 500 in the Values field and tap Save. Back in the Rewrite Setting, we now see Type:Status, Action:500.
+
+Let's check what happens with the transportation app. I restart it and login the the existing user credentials. I'm inside my mobile app, but the the code that is showing for the 'userinfo' call is 500 now:
+
+
+    Code        Method      Host        Path                        ...
+    💣500       POST        app.name    /api/appName/userinfo       ...
 
 ...
 
