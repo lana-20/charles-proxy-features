@@ -216,11 +216,107 @@ With the test data and my test case in place, I can now go ahead and manually cr
     200         POST        app.name    /api/appName/places/add     ...
     
 
-Or, instead of manually creating place one by one, I can test this scenario with the help of Postman. I could run the same request and send information with a bunch of places to the back-end, so they all get added. It's a reasonable approach, which I could use to add the 31st place. However, I should not forget to delete those places upon test execution. It may get complicated. Once a record is inside the database, it's inside, unless I delete it. Sometimes I have to delete everything, but keep Home and Work, so I have to figure out how to only delete the intended places from the database. It can be inconvenient and time-consiming.
+Or, instead of manually creating place one by one, I can test this scenario with the help of Postman. I could run the same request and send information with a bunch of places to the back-end, so they all get added. It's a reasonable approach, which I could use to add the 31st place. However, I should not forget to delete those places upon test execution. It may get complicated. Once a record is inside the database, it's inside, unless I delete it. Sometimes I have to delete everything, but keep Home and Work, so I have to figure out how to only delete the intended places from the database. It can be inconvenient and time-consuming.
 
-I could generate the data with Postman, or could actually add the data to the database directly by using the UPDATE command. But what if I don't want to save anything in the database? My main intent is to verify that I can fit 30 places on the *My Places* screen, that it is scrollable and all, and that the 31st place does not get added.
+We could generate the data with Postman, or could actually add the data to the database directly by using the UPDATE command. But what if we don't want to save anything in the database? My main intent is to verify that I can fit 30 places on the *My Places* screen, that it is scrollable and all, and that the 31st place does not get added.
 
-I can fool the app, because Charles as the 'man in the middle' has the beautiful ability to intercept requests and responses, decrypt them, and display them in the Charles UI.
+We can fool an app, because Charles as the 'man in the middle' has the beautiful ability to intercept requests and responses, decrypt them, and display them in the Charles UI. Charles receives a response from the server and then sends it to me and the app. We can see the call details in the desktop Charles app as well as the mobile device screen.
+
+Because Charles sits as the 'man in the middle', we can change the server response before forwarding it. We can take control and ask Charles to not send something real that's coming from the server but replace it with fake data. Ib this case, we are not inserting anything into the database, not creating any places, we're just fooling an app.
+
+I log out as a guest and log back in as a registered user. I go to *My Places* in my app. Then in Charles I click on the "getuserplaces' call sequence:
+
+    Code        Method      Host        Path                                ...
+    200         POST        app.name    /api/appName/places/getuserplaces   ...
+
+The Contents tab display the following user details:
+
+    {
+    “user_key”: “lana_sdet@gmail.com_2783”,
+    “token”: “36uw5768hdukhg678sdhhg6”
+    }
+
+Once this request hits the server, the server queries the information for the user and returns the user's Home, Work, and custom Space Needle location. The same places display on the mobile screen as well.
+
+    [{
+    “address_type”: “home”
+    }, {
+    “address_type”: “work”
+    }, {
+    “address”: “Space Needle\n 400 Broad Street, Seattle, Washington, United States, 98109”,
+    “address_type”: “custom”,
+    “created”: 1620870663,
+    “last_modified”: 1620870663,
+    “lat”: 47.620422,
+    “lon”: -122.349358,
+    “name”: “Space Needle”, 
+    “place_id”: 2,
+    “user_key”: 7572
+    }]
+
+The **Map Local** feature of Charles Proxy can help me make Charles send to my app not the actual real response that comes from the back-end but something else entirely. We can 'fool' the application with the fake 'getuserplaces' data, for example.
+
+Go to the Tools menu, check the Map Local Settings option, and Enable Map Local. In the Map Local, we can manipulate the app, when it hits a particular endpoint, to diplay some other data in lieu of the real actual data coming from the back-end server. I need to fool the app with the 'getuserplaces' part.
+
+I copy the call's URL, go to Tools > Map Local Settings, and then add this endpoint. The menu shows Edit Mapping and has sections for Map From and Map To. In Map From, we have to provide our protocol type (http or https), our hostname (appname.com), our port number (default port is 443 - can leave it empty), and provide the path (/api/appname/places/getuserplaces). Don't populate the fields individuall, just paste the entire endpoint URL into any field, click inside any other field, and all the respective fields will auto-complete.
+
+Now, in the Map To section, we have to provide a "Local Path". If I click Choose, I should be able to upload a file. What kind of file? I want to upload a JSON file, where I have a different data set. Instead of 3 places - Home, Work, and Space Needle - I need to test more. So, I copy whatever server response I have for now and paste it in a text or code editor. Then I copy/paste paste the Space Needle address multiple times, until I end up with an array of 30 JSON objects. I customize the address values with a numeric index to distinguish among them. During testing, this helps to tell how many hit the screen and identify them. 
+
+So, let's create multiple places and save the file as multi_reservations.json (need JSON format files for Charles):
+
+    [{
+    “address_type”: “home”
+    }, {
+    “address_type”: “work”
+    }, {
+    “address”: “Space Needle1\n 400 Broad Street, Seattle, Washington, United States, 98109”,
+    “address_type”: “custom”,
+    “created”: 1620870663,
+    “last_modified”: 1620870663,
+    “lat”: 47.620422,
+    “lon”: -122.349358,
+    “name”: “Space Needle”, 
+    “place_id”: 2,
+    “user_key”: 7572
+    },
+     {
+    “address”: “Space Needle2\n 400 Broad Street, Seattle, Washington, United States, 98109”,
+    “address_type”: “custom”,
+    “created”: 1620870663,
+    “last_modified”: 1620870663,
+    “lat”: 47.620422,
+    “lon”: -122.349358,
+    “name”: “Space Needle”, 
+    “place_id”: 2,
+    “user_key”: 7572
+    },
+    
+    ...
+    
+     {
+    “address”: “Space Needle27\n 400 Broad Street, Seattle, Washington, United States, 98109”,
+    “address_type”: “custom”,
+    “created”: 1620870663,
+    “last_modified”: 1620870663,
+    “lat”: 47.620422,
+    “lon”: -122.349358,
+    “name”: “Space Needle”, 
+    “place_id”: 2,
+    “user_key”: 7572
+    },
+    …
+     {
+    “address”: “Space Needle28\n 400 Broad Street, Seattle, Washington, United States, 98109”,
+    “address_type”: “custom”,
+    “created”: 1620870663,
+    “last_modified”: 1620870663,
+    “lat”: 47.620422,
+    “lon”: -122.349358,
+    “name”: “Space Needle”, 
+    “place_id”: 2,
+    “user_key”: 7572
+    }]
+
 
 ...
 
