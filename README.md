@@ -442,6 +442,8 @@ Note, again, that we are not changing anything on the back-end, i.e. not changin
 
 As another example, I recently came across some ambiguities in the requirements documentation, so I had to identify the test cases. On the UI side, some fields were required and some were optional. But somewhere on the back-end it was not implemented correctly. When "nulls"s came, the app would fail badly because there was a miscommunication between the back- and fron-end regarding which fields were optional and which were not. With the Breakponts feature, I could view how the app was reacting when a field was coming as "null". I would compare the observed data with the expected default values to mark the test cases as pass or fail.
 
+Charles Proxy is pure joyful magic, when it's already configured. We need to download/install Charles, install/add the SSL certificate on Windows or Mac OS, as well as on mobile Android and iOS devices. Once you have the SSL certificate installed on your machine, you need to add the IP address in a couple of places, for example, in Access Control Settings and SSL Proxying Settings. Check this [post](https://github.com/lana-20/charles-setup/tree/main) for compplete setup instructions.
+
 ___
 
 - [What is Proxy? How does it work?](https://github.com/lana-20/proxy-server#readme)
