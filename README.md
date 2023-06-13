@@ -426,14 +426,21 @@ Go back to the app on the mobile device. Now, the *Streak* screen shows 4 days c
 
 <img width="400" src="https://github.com/lana-20/charles-proxy/assets/70295997/6b101f5c-4c9a-4568-af55-ddb909cba4b6">
 
+Moving on, let's pass 30 as a data value. When we go back to our mobile application, the Charles calls start running, and shortly thereafter we hit the breakpoint. In the Charles Breakpoints screen, click Execute Request, click the Edit Response option, click on JSON Text on the bottom, scroll down (very swiftly), input the test data of 30 [days], and click Execute:
 
+<img width="420" src="https://github.com/lana-20/charles-proxy/assets/70295997/490d3abf-2355-436a-827c-61d88f578844">
 
-#TODO - finish Charles practice notes and illustrations
+In the app's *Streak* screen view, the range slider has turned orange all the way up to 30 days, making a user eligible for the 15% discount.
 
+<img width="400" src="https://github.com/lana-20/charles-proxy/assets/70295997/6f92a831-0a6e-4ce9-a778-eaadf333fca9">
 
+Please note that I'm modifying the number of check-in days not the poins earned. Points are defined in a different key-pair -- "bonus":0.00. IF we revisit the *Streak* call under Contents > Headers and scrool down to the summary, we can see that the points are not calculated by the app. The back-end calculates everything, keeps track of it, and sends the information to the app. And the app displays the data it can see under the *Streak* count, such as 1, 4, 30 (number of days in a row). We only need to modify the streak count, not the bonus points -- it's enough to get the orange-colored progress bar moving on the front-end.
 
+The back-end calculates the number of days-in-a-row and merely sends us a summary. So, the only thing we need to do is change the streak count, make it orange, and move the handlebar on the slider. With tasks like this, when we have to modify a little piece of information (just one number, for example) and we also have a bigger data set (0, 1, **4**, 5, **15**, 16, **30**, 31), using other features than Breakpoints would be more time consuming. Breakpoints allow us to to modify the data on the fly and observer how the app is responding.
 
+Note, again, that we are not changing anything on the back-end, i.e. not changing the data in the app -- we are just 'fooling' the app. It's like re-drawing a picture in the UI, nothing more than that. Breakpoints are a nice feature to use when we need to quickly check how the app displays data or how it behaves when it receives a particular piece of data, for example, mail-formatted data.
 
+As another example, I recently came across some ambiguities in the requirements documentation, so I had to identify the test cases. On the UI side, some fields were required and some were optional. But somewhere on the back-end it was not implemented correctly. When "nulls"s came, the app would fail badly because there was a miscommunication between the back- and fron-end regarding which fields were optional and which were not. With the Breakponts feature, I could view how the app was reacting when a field was coming as "null". I would compare the observed data with the expected default values to mark the test cases as pass or fail.
 
 ___
 
