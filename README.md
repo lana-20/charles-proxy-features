@@ -410,6 +410,24 @@ If we test the test case manually, we'll be here for a month. We don't have 31 d
 
 **Breakpoints** pause the execution, which we see in automation tests. Developers and SDETs use breakpoints when they debug a program to see what's happening at a particular execution step. Charles can pause execution of our requests and responses, and we can modify those in real time.
 
+The disadvantage of Breakpoints is that we have to have some sleight of hand and move quickly. Otherwise, we are going to see a timeout error, which is normal because when requesting information and not receiving a response within a reasonable time there should be a timeout error thrown sooner or later.
+
+We wouldn't want to use either the Rewrite or the Map Local features. In the case of Map Local, we'd have to create 8 separate files for each data input (0, 1, **4**, 5, **15**, 16, **30**, 31). With the Rewrite feature, we'd have to do a rewrite 8 times. When working with a broad dataset that we have to pass to the app, Breakpoiints are an ideal solution.
+
+Let's right-click on the "/app/v1/user" call and select Breakpoints. To make sure the sequence call has been breakpointed, right-click on the request again and verify that it displays checked Breakpoints. For example, if I go to the "/app/v1/user" call, I do not see a checkmark next to the Breakpoint option. We can lift the Breakpoint checkmark, i.e. turn it off for all calls in the Menu panel (on top of the Charles screen) by tapping the red hexagon button (with a white checkmark inside) -- hexagon will turn gray. We can turn the Breakpoints back on by clicking on the hexagon again and turninh it red. Also, at the bottom of the Charles screen, when Recording and Breakpoints show in dark gray it means they are active, i.e. we are recording the Charles session and the Breakpoints are on.
+
+Before altering anything, it's a good idea to review the real information we're getting in the *Streak* call in Charles. There is a bunch of data under Contents > Headers, I only care about the streakCount at the bottom. With a Charles Breakpoint already set on the *Streak* call, on the mobile device exit the *Streak* screen view and navigate back to it again. We have Charles displaying the Breakpoints screen, which prompts the following "This is the Request. So you want to Cancel, Abort, or Execute the response edit?". I'd like to execute it as is and earn those points (by manipulating the number of days) for a user. Now, when the Breakpoint screen shows again, we need to edit the response. For that, click the Edir Response option, click on JSON Text on the bottom, scroll down, input the test data (4 days), and click Execute.
+
+<img width="420" src="https://github.com/lana-20/charles-proxy/assets/70295997/3cb17d7a-3cd5-40ec-b445-0265cfb6cbc4">
+
+The Breakpoints screen times out very fast. If it doesn’t work, try again and fast. Or, restart Charles.
+
+Go back to the app on the mobile device. Now, the *Streak* screen shows 4 days check-in with eligibility for the 5% discount:
+
+<img width="400" src="https://github.com/lana-20/charles-proxy/assets/70295997/6b101f5c-4c9a-4568-af55-ddb909cba4b6">
+
+
+
 #TODO - finish Charles practice notes and illustrations
 
 
